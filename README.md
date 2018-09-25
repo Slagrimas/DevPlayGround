@@ -443,4 +443,32 @@ rekognition.getLabelDetection(params1, function(err, data) {
 });
 ```
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+## Clarifai - [YELP](https://clarifai.com/) - AUTH
+
+```
+const Clarifai = require('clarifai');
+const fs = require('fs-extra');
+const ClarifaiApp = new Clarifai.App({ apiKey: process.env._CLARIFAI_KEY });
+
+// additional method of reading image file names from diretory
+fs.readdir('./uploads', (err, files) => {
+  files.forEach(filename => {
+    console.log(filename);
+  });
+});
+
+// converting image into base64 to send to clarifai api
+fs.readFile(`./uploads/${file}`, (err,data) => {
+  let base64 = data.toString('base64');
+  // clarifai send base64 message
+)};
+
+ClarifaiApp.models.predict(Clarifai.GENERAL_MODEL, {base64: base64})
+  .then(res => {
+    arr.push(res.outputs[0].data.concepts);
+    console.log(arr.length);
+  })
+  .catch(err => {
+    console.log("err")
+  })
+```
