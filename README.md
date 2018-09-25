@@ -443,7 +443,7 @@ rekognition.getLabelDetection(params1, function(err, data) {
 });
 ```
 
-## Clarifai - [Twilio](https://clarifai.com/) - AUTH
+## [Clarifai](https://clarifai.com/) - AUTH
 
 ```js
 const Clarifai = require('clarifai');
@@ -473,7 +473,7 @@ ClarifaiApp.models.predict(Clarifai.GENERAL_MODEL, {base64: base64})
   })
 ```
 
-## Twilio - [Twilio](https://www.twilio.com/) - AUTH
+## [Twilio](https://www.twilio.com/) - AUTH
 
 ```js
 const accountSid = process.env.TWILIO_SID;
