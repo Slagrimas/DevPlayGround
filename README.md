@@ -484,7 +484,7 @@ client.messages
       .create({
          body: `Body message here, is required`,
          from: process.env.TWILIO_CELL,
-         to: process.env.TMO_CELL
+         to: process.env.TMO_CELL // must be a verified number
        })
       .then(message => console.log(message.sid))
       .done();
