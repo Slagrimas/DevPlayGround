@@ -443,9 +443,9 @@ rekognition.getLabelDetection(params1, function(err, data) {
 });
 ```
 
-## Clarifai - [YELP](https://clarifai.com/) - AUTH
+## Clarifai - [Twilio](https://clarifai.com/) - AUTH
 
-```
+```js
 const Clarifai = require('clarifai');
 const fs = require('fs-extra');
 const ClarifaiApp = new Clarifai.App({ apiKey: process.env._CLARIFAI_KEY });
@@ -471,4 +471,22 @@ ClarifaiApp.models.predict(Clarifai.GENERAL_MODEL, {base64: base64})
   .catch(err => {
     console.log("err")
   })
+```
+
+## Twilio - [Twilio](https://www.twilio.com/) - AUTH
+
+```js
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
+client.messages
+      .create({
+         body: `Body message here, is required`,
+         from: process.env.TWILIO_CELL,
+         to: process.env.TMO_CELL
+       })
+      .then(message => console.log(message.sid))
+      .done();
+
 ```
