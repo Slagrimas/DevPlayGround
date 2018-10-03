@@ -43,8 +43,7 @@ function buildWindows(){
 }
 
 function buildLinux(){
-	pip install awscli --upgrade --user
-	aws configure
+	echo ${RED} Not yet supported.
 }
 
 function createBucket(){
@@ -89,7 +88,7 @@ function createBucket(){
 function buildMac(){
 	# step 1 brew install awscli
 	#brew install awscli
-	echo ${CYAN}Looks like you already have the aws cli installed, so lets keep going.${YELLOW}
+	echo ${GREEN}Looks like you already have the aws cli installed, so lets keep going.${YELLOW}
 	
 	# step 2 aws configurition
 	read -p "Do you need to setup your 'aws configure' $foo? [y|n]" answer
