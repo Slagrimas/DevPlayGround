@@ -21,6 +21,6 @@ Upload all files in current directory excluding .git folder and apply public-rea
 Delete all files in bucket:
 `aws s3 rm --recursive s3://my-bucket`
 Delete entire bucket and contents:
-`aws s3 rb s3://bucket-name --force`
+`aws s3 rb s3://testbaseem --force`
 Navigate to:
 `http://my-bucket.s3-website-us-west-2.amazonaws.com
