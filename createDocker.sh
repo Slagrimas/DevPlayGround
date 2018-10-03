@@ -283,6 +283,7 @@ echo "${CYAN}npm run postgres - This script will enter the postgres cli for you"
 echo "${RED}npm run destroy - ${BOLDUNDERLINE}WARNING!!!This script will run the docker-compose down -v command"
 
 
+rm createDocker.sh
 
 exit 1
 
