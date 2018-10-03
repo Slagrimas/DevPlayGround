@@ -1,10 +1,10 @@
 #!/bin/bash
 
-RED="\033[1;31m"
-GREEN="\033[1;32m"
-YELLOW="\033[93m"
-CYAN="\033[96m"
-BOLDUNDERLINE="\033[1;4m"
+RED="\033[1;31m" # warning
+GREEN="\033[1;32m" # info
+YELLOW="\033[93m" # question user
+CYAN="\033[96m" # success echo
+BOLDUNDERLINE="\033[1;4m" # warning echo
 
 function ctrl_c() {
   echo "${RED}${BOLDUNDERLINE}**** You have exited during mid process, sorry to see you leave ****"
@@ -23,7 +23,6 @@ read groupname
 
     aws iam create-group --group-name $groupname &&
     echo ${CYAN}AWS $groupname has been created!
-    #save your output
 
 } || 
 
@@ -31,9 +30,9 @@ echo ${YELLOW}For the AWS group $groupname, what policy would you like to attach
 read policy
 aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/$policy --group-name $groupname
 echo ${CYAN}Fantastic! the $policy has been attached to $groupname
-# echo ***************************
-# echo ${CYAN}Wow! That was easy...
-# echo ${GREEN}Okay what is your username, we will add it to the new group${RED}?
-# read username
-# aws iam add-user-to-group --user-name $username --group-name $groupname
-# echo ${CYAN}Done and Done!
+echo "***************************"
+echo ${GREEN}Wow! That was easy...
+echo ${YELLOW}Okay what is your username, we will add it to the new group${RED}?
+read username
+aws iam add-user-to-group --user-name $username --group-name $groupname
+echo ${CYAN}Done and Done! User is now a member of $groupname
