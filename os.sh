@@ -16,7 +16,7 @@ function buildLinux(){
 }
 
 function ctrl_c() {
-  echo "${RED}${BOLDUNDERLINE}**** You have exited during mid process, sorry to see you leave ****"
+  echo \n"${RED}${BOLDUNDERLINE}**** You have exited during mid process, sorry to see you leave ****"
   echo "${GREEN} You can start over again...just run the script"
   exit 1
 }
@@ -30,8 +30,18 @@ function createBucket(){
 	# Create new S3 bucket that's public, read only:
 	echo ${YELLOW}What would you like to name the bucket?${RED}
 	read bucketname
-	aws s3api create-bucket --bucket $bucketname --acl public-read --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
-	echo ${GREEN}Oh SNAP! that worked...${YELLOW}
+	{ # try
+
+    aws s3api create-bucket --bucket $bucketname --acl public-read --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
+    echo ${GREEN}Oh SNAP! that worked...${YELLOW}
+
+	} || {
+		
+		echo ${RED} ERROR!
+
+		exit 1
+	}
+	
 
 
 	# Configure bucket to serve static website
