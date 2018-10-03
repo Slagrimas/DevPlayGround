@@ -1,0 +1,66 @@
+version: '3.5'
+
+volumes:
+  pg-data-volume:
+  redis-data-volume:
+networks:
+  demo-network:
+
+services:
+
+  demo-react:
+    container_name: demo-react
+    depends_on:
+      - demo-express
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    networks:
+      - demo-network
+
+  demo-express:
+    container_name: demo-express
+    depends_on:
+      - demo-postgres
+    command: [npx, nodemon, app.js]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '9000:9000'
+    environment:
+      - NODE_ENV=development
+    networks:
+      - demo-network
+
+  demo-postgres:
+    container_name: demo-postgres
+    image: postgres:10.0-alpine
+    env_file: .env
+    volumes:
+      - pg-data-volume:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - demo-network
+
+  demo-redis:
+    image: redis:4.0-alpine
+    env_file: .env
+    volumes:
+      - redis-data-volume:/data
+    ports:
+      - '6379:6379'
+    networks:
+      - demo-network
+
