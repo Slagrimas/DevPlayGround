@@ -59,7 +59,7 @@ function createBucket(){
 		echo ${GREEN}Okay we wont!
 	fi
 
-	echo ${CYAN}Setup Complete! - We are opening you S3 bucket in the browser now, enjoy...
+	echo ${CYAN}Setup Complete! - We are opening your S3 bucket in the browser now, enjoy...
 
 	open http://$bucketname.s3-website-us-west-2.amazonaws.com
 
