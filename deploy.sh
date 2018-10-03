@@ -58,7 +58,7 @@ function createBucket(){
 	echo ${GREEN}Lets keep going...${YELLOW}
 
 	# Configure bucket to serve static website
-	read -p "Do you want to configure the bucket to serve static websites? $foo? [yn]" answer
+	read -p "Do you want to configure the bucket to serve static websites? $foo? [y|n]" answer
 	if [[ $answer = y ]] ; then
 	  aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
 	else
@@ -66,7 +66,7 @@ function createBucket(){
 	fi
 
 	# Upload all files in current directory excluding .git folder and apply public-read permissions to all files
-	read -p "Do you want to upload all files in the current directory to your S3 bucket $foo? [yn]" answer
+	read -p "Do you want to upload all files in the current directory to your S3 bucket $foo? [y|n]" answer
 	if [[ $answer = y ]] ; then
 	  aws s3 sync . s3://$bucketname --delete --acl public-read --exclude '.git*'
 	else
@@ -88,13 +88,20 @@ function createBucket(){
 
 function buildMac(){
 	# step 1 brew install awscli
-	echo "${RED}Enter Access Key Id & Secret Access Key"
-	echo ${RED}Set Default region to us-west-2${CYAN}
+	#brew install awscli
+	echo ${CYAN}Looks like you already have the aws cli installed, so lets keep going.${YELLOW}
+	
 	# step 2 aws configurition
-	#aws configure
+	read -p "Do you need to setup your 'aws configure' $foo? [y|n]" answer
+	if [[ $answer = y ]] ; then
+		echo "${RED}Enter Access Key Id & Secret Access Key"
+		echo ${RED}Set Default region to us-west-2${CYAN}
+	  aws configure
+	else
+		# continue to step 3
+		createBucket INT
+	fi
 
-	# continue to step 3
-	createBucket INT
 }
 
 
