@@ -3,6 +3,9 @@ In AWS Console:
 1. Go to IAM Service and create new group, name it `S3FullAccessGroup`, attach the `AmazonS3FullAccess` policy to it.
 1. In IAM Service, add new user.  Name it something like `yourName_macbookpro_cli`.  Make sure only programmatic access is checked off. Add the user to the `S3FullAccessGroup`.
 1. When done with wizard, it will give you your secret access key only ONCE.  Don't leave this page yet.
+
+
+
 In Local Development Terminal:
 1. OSX: `brew install awscli` Linux: `pip install awscli --upgrade --user`
 2. `aws configure`
