@@ -30,24 +30,14 @@ function createBucket(){
 	# Create new S3 bucket that's public, read only:
 	echo ${YELLOW}What would you like to name the bucket?
 	read bucketname
-	{ # try
-
-    aws s3api create-bucket --bucket $bucketname --acl public-read --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
-
-	} || {
-
-		echo ${RED} ERROR!
-
-		exit 1
-	}
+	aws s3api create-bucket --bucket $bucketname --acl public-read --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
 	
 	echo ${GREEN}Lets keep going...${YELLOW}
 
 	# Configure bucket to serve static website
 	read -p "Do you want to configure the bucket to serve static websites? $foo? [yn]" answer
 	if [[ $answer = y ]] ; then
-		echo "aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html"
-	  #aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
+	  aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
 	else
 		echo ${GREEN}Okay we wont!${YELLOW}
 	fi
@@ -55,7 +45,7 @@ function createBucket(){
 	# Upload all files in current directory excluding .git folder and apply public-read permissions to all files
 	read -p "Do you want to upload all files in the current directory to your S3 bucket $foo? [yn]" answer
 	if [[ $answer = y ]] ; then
-	  aws s3 sync . s3://$bucketname --delete --grants --acl public-read --exclude '.git*'
+	  aws s3 sync . s3://$bucketname --delete --acl public-read --exclude '.git*'
 	else
 		echo ${GREEN}Okay we wont!
 	fi
