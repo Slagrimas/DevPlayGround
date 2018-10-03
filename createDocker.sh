@@ -282,8 +282,7 @@ echo "${CYAN}npm run redis - This script will enter the redis cli for you"
 echo "${CYAN}npm run postgres - This script will enter the postgres cli for you"
 echo "${RED}npm run destroy - ${BOLDUNDERLINE}WARNING!!!This script will run the docker-compose down -v command"
 
-# remove script from folder
-rm createDocker.sh
+
 
 exit 1
 
