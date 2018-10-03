@@ -28,7 +28,7 @@ function createBucket(){
 	echo ${GREEN}Now that your all setup, lets create a bucket!
 
 	# Create new S3 bucket that's public, read only:
-	echo ${YELLOW}What would you like to name the bucket?${RED}
+	echo ${YELLOW}What would you like to name the bucket?
 	read bucketname
 	{ # try
 
@@ -41,12 +41,12 @@ function createBucket(){
 		exit 1
 	}
 	
-
+	echo ${GREEN}Lets keep going...${YELLOW}
 
 	# Configure bucket to serve static website
 	read -p "Do you want to configure the bucket to serve static websites? $foo? [yn]" answer
 	if [[ $answer = y ]] ; then
-	  aws s3 website s3://my-bucket/ --index-document index.html --error-document index.html
+	  aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
 	else
 		echo ${GREEN}Okay we wont!${YELLOW}
 	fi
