@@ -47,7 +47,7 @@ function createBucket(){
 	read -p "Do you want to configure the bucket to serve static websites? $foo? [yn]" answer
 	if [[ $answer = y ]] ; then
 		echo "aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html"
-	  aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
+	  #aws s3 website s3://$bucketname/ --index-document index.html --error-document index.html
 	else
 		echo ${GREEN}Okay we wont!${YELLOW}
 	fi
