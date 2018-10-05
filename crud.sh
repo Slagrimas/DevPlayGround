@@ -14,7 +14,7 @@ BOLDUNDERLINE="\033[1;4m" # warning echo
 
 # Check bash version --silent
 if test -z "$BASH_VERSION"; then
-  echo "${RED}Please run this script using bash, not sh or any other shell." >&2
+  echo "Please run this script using bash, not sh or any other shell." >&2
   exit 1
 fi
 
@@ -22,7 +22,7 @@ fi
 
 #TRAP CTRL-C
 function ctrl_c() {
-  echo "\n${RED}${BOLDUNDERLINE}GOOD-BYE"
+  echo "\nGOOD-BYE"
   exit 1
 }
 
@@ -43,19 +43,19 @@ projectname=$2
 
 # Checking if argument is empty
 if [ "$PORT" == "" ]; then
-		echo "${RED}Please try again, pass in a port number ex. crud 3000 projectname" >&2;
+		echo "Please try again, pass in a port number ex. crud 3000 projectname" >&2;
 		exit 1
 fi
 
 # Checking if argument $1 is an integer
 if ! [[ $PORT =~ $re ]] ; then
-   echo "${RED}Please enter arguments in this order & use only number for the port - ex.${GREEN} crud 3000 projectname" >&2; 
+   echo "Please enter arguments in this order & use only number for the port - ex. crud 3000 projectname" >&2; 
    exit 1
 fi
 
 # Checking if more than one argument was passed
 if [ "$#" -ne 2 ]; then
-    echo "${RED}Looks like you forgot something - ex. crud 3000 projectname" >&2;
+    echo "Looks like you forgot something - ex. crud 3000 projectname" >&2;
     exit 1
 fi
 
@@ -70,12 +70,12 @@ lsof -ti tcp:$PORT > portlog.txt
 pid=`cat portlog.txt`
 
 if [ "$pid" != "" ]; then
-    echo "${RED}Looks like $PORT is in use, do you want us to kill it for you?[y|n]"
+    echo "Looks like $PORT is in use, do you want us to kill it for you?[y|n]"
     read kill
     if [[ $kill = y ]] ; then
       kill $pid
     else
-      echo "${RED}You can start over, re-run the script with a new port number"
+      echo "You can start over, re-run the script with a new port number"
       rm portlog.txt
       exit 1
     fi
@@ -190,7 +190,7 @@ curl http://localhost:$PORT/ &> curlmsg.txt
 
 # Look if the word Failed is in log file
 if grep Failed curlmsg.txt; then
-    echo ${RED}Server is not up - ERROR found
+    echo Server is not up - ERROR found
     rm curlmsg.txt
     exit 1
 else
