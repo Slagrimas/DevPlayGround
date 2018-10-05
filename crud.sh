@@ -38,22 +38,23 @@ re='^[0-9]+$' #regex integer check
 
 # ARGUMENT VARIABLES
 PORT=$1
+projectname=$2
 
 # Checking if argument is empty
 if [ "$PORT" == "" ]; then
-		echo "${RED}Please try again, pass in a port number ex. crud 3000" >&2;
+		echo "${RED}Please try again, pass in a port number ex. crud 3000 projectname" >&2;
 		exit 1
 fi
 
-# Checking if argument is an integer
+# Checking if argument $1 is an integer
 if ! [[ $PORT =~ $re ]] ; then
-   echo "${RED}Please enter a port number only - ex. crud 3000" >&2; 
+   echo "${RED}Please enter arguments in this order & use only number for the port - ex.${GREEN} crud 3000 projectname" >&2; 
    exit 1
 fi
 
 # Checking if more than one argument was passed
-if [ "$#" -ne 1 ]; then
-    echo "${RED}Please enter only one argument - ex. crud 3000" >&2;
+if [ "$#" -ne 2 ]; then
+    echo "${RED}Looks like you forgot something - ex. crud 3000 projectname" >&2;
     exit 1
 fi
 
