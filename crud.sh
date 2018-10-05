@@ -41,19 +41,20 @@ PORT=$1
 
 # Checking if argument is empty
 if [ "$PORT" == "" ]; then
-		echo "Please try again, pass in a port number ex. crud 3000" >&2;
+		echo "${RED}Please try again, pass in a port number ex. crud 3000" >&2;
 		exit 1
 fi
 
 # Checking if argument is an integer
 if ! [[ $PORT =~ $re ]] ; then
-   echo "Please enter a port number only - ex. crud 3000" >&2; 
+   echo "${RED}Please enter a port number only - ex. crud 3000" >&2; 
    exit 1
 fi
 
 # Checking if more than one argument was passed
 if [ "$#" -ne 1 ]; then
-    echo "Please enter only one argument - ex. crud 3000"
+    echo "${RED}Please enter only one argument - ex. crud 3000" >&2;
+    exit 1
 fi
 
 echo 'everything worked!'
