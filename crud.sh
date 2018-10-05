@@ -4,6 +4,7 @@
 # --silent => if successful no output required
 
 
+
 #COLOR VARIABLES
 RED="\033[1;31m" # warning echo
 GREEN="\033[1;32m" # info echo
@@ -58,12 +59,37 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
+# check if port is running
+# if it is give user option to kill and replace with new one
+# if they dont want to replace - exit and give option to re-run with new port number
+
+# this command probably only works on mac
+# TODO: do an OS check here for different commands
+lsof -ti tcp:$PORT > portlog.txt
+
+pid=`cat portlog.txt`
+
+if [ "$pid" != "" ]; then
+    echo "${RED}Looks like $PORT is in use, do you want us to kill it for you?[y|n]"
+    read kill
+    if [[ $kill = y ]] ; then
+      kill $pid
+    else
+      echo "${RED}You can start over, re-run the script with a new port number"
+      rm portlog.txt
+      exit 1
+    fi
+fi
+rm portlog.txt
+
 # Begin folder & file creation
 mkdir $projectname
 # init npm
 (cd $projectname && npm init -y > ./log )
 (cd $projectname && rm log)
 (cd $projectname && rm package.json)
+
+echo "node_modules" > ./$projectname/.gitignore
 
 # Replace with new package.json
 echo '{
@@ -139,6 +165,14 @@ app.post('/archive', (req,res) => {
     body: req.body
   });
 });
+
+// 404
+app.get('/*', (req,res) => {
+  res.json({
+    message: '404 route',
+    method: 'GET'
+  });
+})
 
 // LISTEN
 app.listen(PORT, () => {
