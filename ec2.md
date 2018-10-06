@@ -20,7 +20,7 @@ $ chmod 400 devenv-key.pem
 # Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-0f65671a86f061fcd
 # Free Tier
 
-$ aws ec2 run-instances --image-id ami-0f65671a86f061fcd --security-group-ids sg-06154d2f66e888ccb --count 1 --instance-type t2.micro --key-name devenv-key --query 'Instances[0].InstanceId'
+$ aws ec2 run-instances --image-id ami-0f65671a86f061fcd --security-group-ids sg-####### --count 1 --instance-type t2.micro --key-name devenv-key --query 'Instances[0].InstanceId'
 
 # region affect ami-#####
 # response
@@ -30,10 +30,10 @@ $ aws ec2 run-instances --image-id ami-0f65671a86f061fcd --security-group-ids sg
 # have to use a sleep method to wait for instance to start before this query
 
 
-$ aws ec2 describe-instances --instance-ids i-0b43492678d53b7b9 --query 'Reservations[0].Instances[0].PublicIpAddress'
+$ aws ec2 describe-instances --instance-ids i-########## --query 'Reservations[0].Instances[0].PublicIpAddress'
 
 #ip as variable $instanceip
-# "18.224.94.239"
+# "18.224.##.###"
 
 ssh -i devenv-key.pem ubuntu@18.224.##.###
 

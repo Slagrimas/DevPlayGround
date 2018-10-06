@@ -1,5 +1,23 @@
 #!/bin/bash
 
+
+# Progress BAR
+function progressBar() {
+  local duration=20
+
+  already_done() { for ((done=0; done<elapsed; done=done+1)); do printf "▇"; done }
+  remaining() { for ((remain=elapsed; remain<duration; remain=remain+1)); do printf " "; done }
+  percentage() { printf "| %s%%" $(( ((elapsed)*100)/(duration)*100/100 )); }
+  clean_line() { printf "\r"; }
+
+  for (( elapsed=1; elapsed<=duration; elapsed=elapsed+1 )); do
+      already_done; remaining; percentage
+      sleep 1
+      clean_line
+  done
+  clean_line
+}
+
 #TRAP CTRL-C
 function ctrl_c() {
   echo "\nGOOD-BYE"
@@ -50,13 +68,55 @@ case $region in
   'AIX') ;;
   *) ;;
 esac
+rm region.txt
 
 echo Please enter a security group name[lowercase]?
 read groupname
+# create aws security group name
+aws ec2 create-security-group --group-name $groupname --description "security group for development environment" &> groupid.json
 
-aws ec2 create-security-group --group-name $groupname --description "security group for development environment" &> groupid.txt
+groupid=($(jq -r '.GroupId' groupid.json))
+rm groupid.json
 
-groupid=`cat groupid.txt`
+# give security group permission to expose port 22
+aws ec2 authorize-security-group-ingress --group-name $groupname --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+echo Port 22 has been exposed
+echo Which additional port do you want to expose[8080]?
+read portnumber
+# give security group permission to expose desired port
+aws ec2 authorize-security-group-ingress --group-name $groupname --protocol tcp --port $portnumber --cidr 0.0.0.0/0
+
+# create pem key
+aws ec2 create-key-pair --key-name $groupname-key --query 'KeyMaterial' --output text > $groupname-key.pem
+
+# give pem permission
+chmod 400 $groupname-key.pem
+
+# start instance - set ami id pass in group id - and use key pem
+aws ec2 run-instances --image-id ami-$instanceid --security-group-ids $groupid --count 1 --instance-type t2.micro --key-name $groupname-key --query 'Instances[0].InstanceId' &> getipid.txt
+
+getipid=`cat getipid.txt | sed -e 's/^"//' -e 's/"$//'`
+progressBar INT
+# give aws time to start-up ip
+echo Checking if instance is running....
+
+
+# get new instance ip address
+aws ec2 describe-instances --instance-ids $getipid --query 'Reservations[0].Instances[0].PublicIpAddress' &> ip.txt
+
+awsip=`cat ip.txt | sed -e 's/^"//' -e 's/"$//'`
+rm ip.txt
+rm getipid.txt
+
+ssh -i $groupname-key.pem ubuntu@$awsip
+
+echo "hello world"
+
+
+#rm $groupname-key.pem
+
+
 
 
 
