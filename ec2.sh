@@ -109,6 +109,8 @@ awsip=`cat ip.txt | sed -e 's/^"//' -e 's/"$//'`
 rm ip.txt
 rm getipid.txt
 
+# TO BE CONTINUED ON part2.sh
+
 ssh -i $groupname-key.pem ubuntu@$awsip
 
 echo "hello world"
