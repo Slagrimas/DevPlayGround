@@ -9,6 +9,6 @@ trap ctrl_c INT
 
 
 
-package_name=dpkg
+package_name=aws
 t=`which $package_name`
 [ -z "$t" ] && echo "the $package_name isn't installed!"
