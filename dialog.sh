@@ -7,7 +7,7 @@ function ctrl_c() {
 }
 trap ctrl_c INT
 
-secretcode=$1
+# start editing your bash script here
 
 
 function stretchTime(){
@@ -18,19 +18,11 @@ EOF
 
 dialogText=$(osascript -e "$applescriptCode");
 
-if [ "$dialogText" = "$secretcode" ]; then
+if [ "$dialogText" = "done" ]; then
     echo "Go back to work!"
 else
 	osascript -e 'tell app "System Events" to display dialog "Dont skip stretch time!"'
 fi
 }
 
-
-# start editing your bash script here
-echo starting stretch timer...
-while true; do
-  sleep 10
-  stretchTime INT
-done
-
-
+stretchTime INT
