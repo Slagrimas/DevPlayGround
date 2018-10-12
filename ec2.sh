@@ -111,9 +111,9 @@ rm getipid.txt
 
 # TO BE CONTINUED ON part2.sh
 
-ssh -i $groupname-key.pem ubuntu@$awsip
+# ssh -i $groupname-key.pem ubuntu@$awsip
 
-echo "hello world"
+echo "done"
 
 
 #rm $groupname-key.pem
